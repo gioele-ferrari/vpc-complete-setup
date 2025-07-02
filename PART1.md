@@ -65,3 +65,7 @@ Infine, ho associato il NACL alla subnet `public-subnet-1`.
 ---
 
 Con queste configurazioni, il traffico nella rete è ora **instradato correttamente**, e le risorse all'interno della subnet sono **protette** sia a livello di risorsa che a livello di subnet.
+
+---
+
+A questo punto il setup delle tabelle di instradamento e gruppi di sicurezza è completo, prosegue in [Creazione di un server web con EC2](PART2.md)
