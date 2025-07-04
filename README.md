@@ -19,7 +19,7 @@ Implementazione completa di una Virtual Private Cloud (VPC) su AWS con tutte le 
 
 Ho inizializzato una VPC dal pannello di controllo AWS con le seguenti impostazioni:
 
-- **Nome**: `my-vpc-main`
+- **Nome**: `Main VPC`
 - **Blocco CIDR IPv4**: `10.0.0.0/16`
 
 > Una maschera `/16` permette di riservare 16 bit per gli host (65536 indirizzi IP disponibili), facilitando la suddivisione in sottoreti (/24 o simili).
@@ -30,9 +30,11 @@ Ho inizializzato una VPC dal pannello di controllo AWS con le seguenti impostazi
 
 Ho creato una subnet, cioè una partizione della VPC, con le seguenti impostazioni:
 
-- **Nome**: `public-subnet-1`
-- **Zona di disponibilità (AZ)**: `eu-central-1a` (Europa - Francoforte)
-- **Blocco CIDR**: `10.0.0.0/24`
+- **Nome**: `Public Subnet`
+- **Blocco CIDR**: `10.0.1.0/24`
+
+- **Nome**: `Private Subnet`
+- **Blocco CIDR**: `10.0.2.0/24`
 
 > Una subnet `/24` fornisce 256 indirizzi IP (254 utilizzabili per host).
 
@@ -57,13 +59,13 @@ Per far sì che le risorse create all’interno della subnet ricevano automatica
 
 Per permettere alla VPC di comunicare con Internet, ho creato un **Internet Gateway** con le seguenti caratteristiche:
 
-- **Nome**: `my-ig-main`
+- **Nome**: `Internet Gateway Main`
 
 ---
 
 ### 5. Collegamento Internet Gateway alla VPC
 
-Una volta creato l’Internet Gateway, l’ho collegato alla VPC (`my-vpc-main`) tramite il pannello di controllo AWS.
+Una volta creato l’Internet Gateway, l’ho collegato alla VPC (`Main VPC`) tramite il pannello di controllo AWS.
 
 ---
 

@@ -7,28 +7,26 @@ In questa sezione del progetto, l'obiettivo è creare le **routing table**, i **
 
 ### 1. Creazione della Routing Table
 
-Per abilitare la comunicazione dall'esterno, ho creato una nuova **Routing Table**.  
+Per abilitare la comunicazione dall'esterno, ho creato una nuova **Public Routing Table**.
 La routing table definisce la direzione che il traffico deve seguire per raggiungere una destinazione.
 
-Quando viene creata una VPC, AWS genera automaticamente una routing table con una sola route:
-
-- **Destinazione**: `10.0.0.0/16`  
+- **Destinazione**: `10.0.1.0/16`  
 - **Target**: `local`
-
-Questa route permette la comunicazione interna tra le risorse all'interno della VPC.  
-Per consentire la comunicazione con l'esterno (Internet), ho aggiunto una nuova route:
 
 - **Destinazione**: `0.0.0.0/0`  
 - **Target**: `Internet Gateway`
 
-In questo modo, tutto il traffico che non è destinato agli indirizzi interni verrà inoltrato all'Internet Gateway.
+Configurazione della seconda **Public Routing Table** fatta così:
+
+- **Destinazione**: `10.0.0.0/16`  
+- **Target**: `local`
 
 ---
 
 ### 2. Associazione della Routing Table alla Subnet
 
 Una subnet, per poter comunicare con l'esterno o con altre subnet interne, deve essere associata a una routing table.  
-Dopo aver associato la subnet alla routing table appena creata, questa può essere considerata una **subnet pubblica**, in quanto instrada il traffico verso l'esterno tramite le rotte definite.
+Dopo aver associato la subnet alla routing table appena creata, questa può essere considerata una **subnet pubblica**, in quanto instrada il traffico verso l'esterno tramite le rotte definite. Mentre la seconda rimane privata **subnet privata**.
 
 ---
 
@@ -38,12 +36,12 @@ Ogni risorsa all'interno di una subnet deve essere protetta da un **Security Gro
 
 Il gruppo di sicurezza è stato creato con le seguenti impostazioni:
 
-- **Nome**: `my-sg-main`
+- **Nome**: `Security Group Main`
 - **Descrizione**: Gruppo di sicurezza generale per VPC Main
-- **VPC**: `my-vpc-main`
+- **VPC**: `Main VPC`
 - **Regole di ingresso**:
-  - HTTP su porta `80`
-  - Origine: `0.0.0.0/0` (consente il traffico da qualsiasi origine)
+  - SSH Consentito
+  - ICMP Consentito
 
 ---
 
@@ -52,15 +50,21 @@ Il gruppo di sicurezza è stato creato con le seguenti impostazioni:
 A differenza dei Security Group, che proteggono **singole risorse**, il **Network ACL** protegge l’intera **subnet**.  
 Per esempio, possiamo bloccare un protocollo a livello di subnet con l’ACL e bloccare un IP specifico con un Security Group.
 
-Configurazione del NACL:
+Configurazione del NACL Privato:
 
-- **Nome**: `my-acl-main`
-- **VPC**: `my-vpc-main`
+- **Nome**: `Private ACL`
+- **VPC**: `My VPC`
 - **Regole**:
-  - Ingresso: consente tutto il traffico
-  - Uscita: consente tutto il traffico
+  - Ingresso: consente solo traffico ICMP da 10.0.1.0/24
+  - Uscita: consente solo traffico ICMP verso 10.0.1.0/24
 
-Infine, ho associato il NACL alla subnet `public-subnet-1`.
+Configurazione del NACL Pubblico:
+
+- **Nome**: `Public ACL`
+- **VPC**: `My VPC`
+- **Regole**:
+  - Ingresso: consente solo traffico ICMP da 0.0.0.0/0
+  - Uscita: consente solo traffico ICMP da 0.0.0.0/0
 
 ---
 
