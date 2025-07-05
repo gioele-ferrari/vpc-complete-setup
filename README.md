@@ -1,4 +1,4 @@
-# VPC Complete Setup
+# VPC Ping Test
 
 Una **VPC (Virtual Private Cloud)** è un modo per creare e gestire un'infrastruttura di rete virtuale su AWS, in cui gli oggetti possono comunicare tra loro attraverso regole di routing, controllo del traffico e configurazioni specifiche.  
 Senza una VPC, le risorse AWS verrebbero allocate nello spazio condiviso del cloud, mentre con la VPC possiamo definire un ambiente isolato e controllato.
